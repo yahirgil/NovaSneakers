@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NovaSneakers</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Popup ofertas -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <h2>Obtén ofertas exclusivas</h2>
+        <input type="text" placeholder="Correo o teléfono">
+        <br><br>
+        <button onclick="guardarDatos()">Guardar</button>
+        <button onclick="cerrarPopup()">Omitir</button>
+    </div>
+</div>
+
+<!-- Header -->
+<header>
+
+<div class="left">
+<input type="text" id="buscador" placeholder="Buscar tenis..." onkeyup="buscarProducto()">
+</div>
+
+<div class="center">
+<img src="logo.png" class="logo">
+<nav>
+<a href="#">Catálogo</a>
+<a href="#">Hombre</a>
+<a href="#">Mujer</a>
+<a href="#">Contacto</a>
+</nav>
+</div>
+
+<div class="right">
+<button onclick="abrirCarrito()">🛒 Carrito (<span id="contador">0</span>)</button>
+</div>
+
+</header>
+
+<!-- Catálogo -->
+<section class="catalogo" id="catalogo">
+
+<div class="producto">
+<img src="https://via.placeholder.com/200">
+<h3>Nike Air Force 1</h3>
+<p>$2,399</p>
+<button onclick="agregarCarrito('Nike Air Force 1',2399)">Agregar</button>
+</div>
+
+<div class="producto">
+<img src="https://via.placeholder.com/200">
+<h3>Adidas Forum</h3>
+<p>$2,199</p>
+<button onclick="agregarCarrito('Adidas Forum',2199)">Agregar</button>
+</div>
+
+<div class="producto">
+<img src="https://via.placeholder.com/200">
+<h3>Puma RS-X</h3>
+<p>$1,999</p>
+<button onclick="agregarCarrito('Puma RS-X',1999)">Agregar</button>
+</div>
+
+</section>
+
+<!-- Carrito -->
+<div id="carrito" class="carrito">
+<h2>Carrito</h2>
+<ul id="lista-carrito"></ul>
+<p>Total: $<span id="total">0</span></p>
+<button onclick="cerrarCarrito()">Cerrar</button>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+
+body{
+font-family: Arial;
+margin:0;
+background:white;
+color:black;
+}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px;
+background:black;
+color:white;
+}
+
+.logo{
+height:50px;
+}
+
+nav a{
+margin:10px;
+color:white;
+text-decoration:none;
+}
+
+.catalogo{
+display:flex;
+gap:20px;
+padding:20px;
+flex-wrap:wrap;
+}
+
+.producto{
+border:1px solid black;
+padding:15px;
+text-align:center;
+width:200px;
+}
+
+button{
+background:black;
+color:white;
+border:none;
+padding:10px;
+cursor:pointer;
+}
+
+button:hover{
+background:gray;
+}
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.popup-content{
+background:white;
+padding:30px;
+text-align:center;
+}
+
+.carrito{
+position:fixed;
+right:0;
+top:0;
+background:white;
+width:300px;
+height:100%;
+border-left:2px solid black;
+padding:20px;
+display:none;
+}
+
+
+let carrito = []
+let total = 0
+
+function cerrarPopup(){
+document.getElementById("popup").style.display="none"
+}
+
+function guardarDatos(){
+alert("Datos guardados")
+cerrarPopup()
+}
+
+function agregarCarrito(nombre,precio){
+
+carrito.push({nombre,precio})
+
+total += precio
+
+actualizarCarrito()
+
+}
+
+function actualizarCarrito(){
+
+let lista = document.getElementById("lista-carrito")
+let contador = document.getElementById("contador")
+
+lista.innerHTML=""
+
+carrito.forEach(producto=>{
+
+let li = document.createElement("li")
+
+li.textContent = producto.nombre + " $" + producto.precio
+
+lista.appendChild(li)
+
+})
+
+contador.textContent = carrito.length
+
+document.getElementById("total").textContent = total
+
+}
+
+function abrirCarrito(){
+
+document.getElementById("carrito").style.display="block"
+
+}
+
+function cerrarCarrito(){
+
+document.getElementById("carrito").style.display="none"
+
+}
+
+function buscarProducto(){
+
+let input = document.getElementById("buscador").value.toLowerCase()
+
+let productos = document.querySelectorAll(".producto")
+
+productos.forEach(producto=>{
+
+let nombre = producto.innerText.toLowerCase()
+
+if(nombre.includes(input)){
+
+producto.style.display="block"
+
+}else{
+
+producto.style.display="none"
+
+}
+
+})
+
+}
+
+
+
+
+
